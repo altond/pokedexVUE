@@ -1,14 +1,17 @@
 <template>
   <v-container fluid>
-    <v-select 
+    <v-autocomplete 
       label="Search..."
       :items="names"
       item-text="name"
       input="selectedName"
       v-model="selectedName"
       @change="onChange()"
+      prepend-icon="fas fa-search"
+      filled
+      rounded
       >
-    </v-select>
+    </v-autocomplete>
     
   </v-container>
   

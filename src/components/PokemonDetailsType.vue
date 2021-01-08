@@ -3,19 +3,19 @@
     elevation="6"
     outlined
     class="mx-auto my-12"
-  >
+    >
     <v-card-title>{{title}}</v-card-title>
 
     <v-card-text>
 
-      <div class="text--primary moves" v-if="title === 'Type' && pokedata">
+      <div class="text--primary types" v-if="title === 'Type' && pokedata">
         <ul>
           <li v-for="(type, index) in pokedata" :key="index">
             {{type.type.name | capitalize}}
           </li>
         </ul>
       </div>
-      <div class="text--primary moves" v-else-if="title === 'Abilities' && pokedata">
+      <div class="text--primary abilities" v-else-if="title === 'Abilities' && pokedata">
         <ul>
           <li v-for="(ab, index) in pokedata" :key="index">
             {{ab.ability.name | format | capitalize}} 
@@ -61,7 +61,7 @@ export default {
       format (str)  {
         if (!str) return ''
         str = str.toString()
-        return str.replace('-',' ')
+        return str.replaceAll('-',' ')
       }
 
     },
@@ -81,6 +81,24 @@ export default {
   .moves ul li  {
     list-style: none;
     flex: 0 0 25%;
+  }
+
+  .types ul  {
+    display: flex;
+  }
+
+  .types ul li {
+    list-style: none;
+    flex: 0 0 50%;
+  }
+
+  .abilities ul  {
+    display: flex;
+  }
+
+  .abilities ul li  {
+    list-style: none;
+    flex: 0 0 33.3333%;
   }
 
   .format2 ul li {

@@ -21,11 +21,12 @@
 
     </v-app-bar>
 
-    <v-main>
-      <PokemonSearch v-bind:names="names" v-on:selected="setSelected"/>
+    <v-main fill-height fluid>
+     
+      <PokemonSearch v-bind:names="names" v-on:selected="setSelected" class="centre"/>
       <v-container v-if="pokedata" class="pokeinfo">
         
-        <v-row>
+        <v-row lg='1'>
           <v-col lg='3' min-width='475px'>
             <PokemonImage v-bind:pokedata="pokedata" v-bind:selected="selected"/>
           </v-col>
@@ -33,6 +34,7 @@
             <PokemonDetailsType v-bind:pokedata="pokedata.types" v-bind:title="titletype"/>
             <PokemonDetailsType v-bind:pokedata="pokedata.abilities" v-bind:title="titleabilities"/>
             <PokemonDetailsType v-bind:pokedata="pokedata.stats" v-bind:title="titlestats"/>
+            <PokemonDetailsSprites v-bind:pokedata="pokedata.sprites" v-bind:title="titlesprites"/>
           </v-col>
           <v-col lg='4.5'>
             <PokemonDetailsType v-bind:pokedata="pokedata.moves" v-bind:title="titlemoves"/>
@@ -40,7 +42,6 @@
         </v-row>
       </v-container>
       <h1 v-else>Click the Dropdown Menu above and select a Pokemon!</h1>
-      
     </v-main>
   </v-app>
 </template>
@@ -49,6 +50,8 @@
 import PokemonSearch from './components/PokemonSearch';
 import PokemonImage from './components/PokemonImage';
 import PokemonDetailsType from './components/PokemonDetailsType';
+import PokemonDetailsSprites from './components/PokemonDetailsSprites';
+import { pokemonNames } from './data.js'
 import axios from 'axios';
 
 
@@ -58,7 +61,8 @@ export default {
   components: {
     PokemonSearch,
     PokemonImage,
-    PokemonDetailsType
+    PokemonDetailsType,
+    PokemonDetailsSprites
   },
 
   props: ["selectedName"],
@@ -66,27 +70,20 @@ export default {
   data () {
     return  {
       selected: '',
-      names: [
-        "Bulbasaur","Ivysaur","Venusaur","Charmander","Charmeleon","Charizard","Squirtle","Wartortle","Blastoise","Caterpie","Metapod","Butterfree","Weedle","Kakuna","Beedrill","Pidgey","Pidgeotto","Pidgeot",
-        "Rattata","Raticate","Spearow","Fearow","Ekans","Arbok","Pikachu","Raichu","Sandshrew","Sandslash","Nidoran♀","Nidorina","Nidoqueen","Nidoran♂","Nidorino","Nidoking","Clefairy","Clefable","Vulpix","Ninetales",
-        "Jigglypuff","Wigglytuff","Zubat","Golbat","Oddish","Gloom","Vileplume","Paras","Parasect","Venonat","Venomoth","Diglett","Dugtrio","Meowth","Persian","Psyduck","Golduck","Mankey","Primeape","Growlithe",
-        "Arcanine","Poliwag","Poliwhirl","Poliwrath","Abra","Kadabra","Alakazam","Machop","Machoke","Machamp","Bellsprout","Weepinbell","Victreebel","Tentacool","Tentacruel","Geodude","Graveler","Golem","Ponyta",
-        "Rapidash","Slowpoke","Slowbro","Magnemite","Magneton","Farfetch’d","Doduo","Dodrio","Seel","Dewgong","Grimer","Muk","Shellder","Cloyster","Gastly","Haunter","Gengar","Onix","Drowzee","Hypno","Krabby",
-        "Kingler","Voltorb","Electrode","Exeggcute","Exeggutor","Cubone","Marowak","Hitmonlee","Hitmonchan","Lickitung","Koffing","Weezing","Rhyhorn","Rhydon","Chansey","Tangela","Kangaskhan","Horsea","Seadra",
-        "Goldeen","Seaking","Staryu","Starmie","Mr.Mime","Scyther","Jynx","Electabuzz","Magmar","Pinsir","Tauros","Magikarp","Gyarados","Lapras","Ditto","Eevee","Vaporeon","Jolteon","Flareon","Porygon","Omanyte",
-        "Omastar","Kabuto","Kabutops","Aerodactyl","Snorlax","Articuno","Zapdos","Moltres","Dratini","Dragonair","Dragonite","Mewtwo","Mew"
-      ],
+      names: [],
       pokedata: null,
       titletype: 'Type',
       titleabilities: 'Abilities',
       titlemoves: 'Possible Moves',
-      titlestats: 'Base Stats'
+      titlestats: 'Base Stats',
+      titlesprites: 'Sprites'
 
     }
   },
 
   created()  {
     console.log("created !")
+    this.names = pokemonNames
   },
   mounted()  {
         console.log("mounted !")
@@ -111,6 +108,15 @@ export default {
   }
 
   .pokeinfo {
-    display: flex;
+    /* display: flex; */
+  }
+
+  .centre  {
+    margin: auto;
+    width: 75%;
+  }
+
+  .v-main__wrap  {
+    margin: auto;
   }
 </style>

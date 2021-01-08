@@ -10,6 +10,7 @@
       height="400"
       width="400"
       :src="getImgSrc()"
+      class="centre"
     ></v-img>
 
     <v-card-title>
@@ -56,3 +57,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+  .centre  {
+    margin: auto;
+  }
+</style>
