@@ -79,8 +79,8 @@ export default {
   }
 
   .moves ul li  {
-    list-style: none;
-    flex: 0 0 25%;
+    /* list-style: none; */
+    flex: 0 0 33%;
   }
 
   .types ul  {

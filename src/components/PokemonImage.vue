@@ -4,17 +4,17 @@
     outlined
     class="mx-auto my-12"
   >
-    <v-card-title>{{selected}}</v-card-title>
+    
 
     <v-img
-      height="400"
-      width="400"
       :src="getImgSrc()"
       class="centre"
     ></v-img>
 
     <v-card-title>
-      Height
+      <div class="overline">
+        Height
+      </div>
     </v-card-title>
 
     <v-card-text>
@@ -26,7 +26,9 @@
     <v-divider class="mx-4"></v-divider>
 
     <v-card-title>
-      Weight
+      <div class="overline">
+        Weight
+      </div>
     </v-card-title>
 
     <v-card-text>

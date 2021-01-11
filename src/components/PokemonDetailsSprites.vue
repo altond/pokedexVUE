@@ -8,36 +8,41 @@
 
     <v-card-text>
       <v-row>
-        <v-col>
+        <v-col class="nopad">
           <v-img
             :src="getSpriteFD()"
             max-height="100"
             max-width="100"
+            class="centre"
           />
         </v-col>
-        <v-col>
+        <v-col class="nopad">
           <v-img
             :src="getSpriteBD()"
             max-height="100"
             max-width="100"
-          />
+            class="centre"
+          />   
         </v-col>
-        <v-col>
+      </v-row>
+      <v-row>
+        <v-col class="nopad">
           <v-img
             :src="getSpriteFS()"
             max-height="100"
             max-width="100"
+            class="centre"
           />
         </v-col>
-        <v-col>
+        <v-col class="nopad">
           <v-img
             :src="getSpriteBS()"
             max-height="100"
             max-width="100"
+            class="centre"
           />
         </v-col>
       </v-row>
-
     </v-card-text>
 
   </v-card>
@@ -66,3 +71,13 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .nopad  {
+        /* padding: 0px; */
+    }
+
+    .centre  {
+        margin: auto;
+    }
+</style>

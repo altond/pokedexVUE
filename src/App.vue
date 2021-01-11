@@ -15,34 +15,33 @@
           width="40"
         />
 
-        <h2>Alton's Pokedex v1.0</h2>
-
+        <h2>{{ appbartitle }}</h2>
       </div>
-
     </v-app-bar>
-
-    <v-main fill-height fluid>
-     
-      <PokemonSearch v-bind:names="names" v-on:selected="setSelected" class="centre"/>
-      <v-container v-if="pokedata" class="pokeinfo">
-        
-        <v-row lg='1'>
-          <v-col lg='3' min-width='475px'>
-            <PokemonImage v-bind:pokedata="pokedata" v-bind:selected="selected"/>
-          </v-col>
-          <v-col lg='4.5'>
-            <PokemonDetailsType v-bind:pokedata="pokedata.types" v-bind:title="titletype"/>
-            <PokemonDetailsType v-bind:pokedata="pokedata.abilities" v-bind:title="titleabilities"/>
-            <PokemonDetailsType v-bind:pokedata="pokedata.stats" v-bind:title="titlestats"/>
-            <PokemonDetailsSprites v-bind:pokedata="pokedata.sprites" v-bind:title="titlesprites"/>
-          </v-col>
-          <v-col lg='4.5'>
-            <PokemonDetailsType v-bind:pokedata="pokedata.moves" v-bind:title="titlemoves"/>
-          </v-col>
-        </v-row>
-      </v-container>
-      <h1 v-else>Click the Dropdown Menu above and select a Pokemon!</h1>
-    </v-main>
+    
+    <div class="centre">
+      <v-main>   
+        <PokemonSearch v-bind:names="names" v-on:selected="setSelected"/>
+        <v-container v-if="pokedata" class="pokeinfo">
+          <h1>#{{ selectedID }}: {{ selected | toUpperCase }}</h1>
+          <v-row>
+            <v-col xl ='4' lg='3' md='12' sm='12'>
+              <PokemonImage v-bind:pokedata="pokedata" v-bind:selected="selected"/>
+            </v-col>
+            <v-col xl ='4' lg='3' md='6' sm='12' >
+              <PokemonDetailsType v-bind:pokedata="pokedata.types" v-bind:title="titletype"/>
+              <PokemonDetailsType v-bind:pokedata="pokedata.abilities" v-bind:title="titleabilities"/>
+              <PokemonDetailsType v-bind:pokedata="pokedata.stats" v-bind:title="titlestats"/>
+              <PokemonDetailsSprites v-bind:pokedata="pokedata.sprites" v-bind:title="titlesprites"/>
+            </v-col>
+            <v-col xl ='4' lg='4.5' >
+              <PokemonDetailsType v-bind:pokedata="pokedata.moves" v-bind:title="titlemoves"/>
+            </v-col>
+          </v-row>          
+        </v-container>
+        <h1 v-else>Click the Dropdown Menu above and select a Pokemon!</h1>
+      </v-main>
+    </div>
   </v-app>
 </template>
 
@@ -70,14 +69,15 @@ export default {
   data () {
     return  {
       selected: '',
+      selectedID: null,
       names: [],
       pokedata: null,
       titletype: 'Type',
       titleabilities: 'Abilities',
       titlemoves: 'Possible Moves',
       titlestats: 'Base Stats',
-      titlesprites: 'Sprites'
-
+      titlesprites: 'Sprites',
+      appbartitle: 'Alton\'s Pokedex v1.1'
     }
   },
 
@@ -93,11 +93,18 @@ export default {
 
     setSelected(selectedName) {
       this.selected = selectedName
-      axios.get(' https://pokeapi.co/api/v2/pokemon/' + parseInt(this.names.indexOf(this.selected) + 1))
+      this.selectedID = parseInt(this.names.indexOf(this.selected) + 1)
+      axios.get(' https://pokeapi.co/api/v2/pokemon/' + this.selectedID)
         .then(response => (this.pokedata = response.data))
         .catch(err => console.log(err));
     },
     
+  },
+
+  filters:  {
+    toUpperCase (value) {
+        return value.toUpperCase()
+    },
   }
 };
 </script>
@@ -107,13 +114,8 @@ export default {
     text-align: center;
   }
 
-  .pokeinfo {
-    /* display: flex; */
-  }
-
   .centre  {
     margin: auto;
-    width: 75%;
   }
 
   .v-main__wrap  {
