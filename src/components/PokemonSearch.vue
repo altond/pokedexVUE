@@ -18,16 +18,28 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import { pokemonNames } from '../data.js';
+
   export default {
     name: 'PokemonSearch',
-    props: ["names"],
+    props: [],
     data: () => ({
-      selectedName: ""
+      selectedName: null,
+      selectedID: null,
+      selected: false
     }),
     methods:  {
       onChange()  {
-        console.log(this.selectedName)
-        this.$emit('selected', this.selectedName)
+        this.selectedID = parseInt(this.names.indexOf(this.selectedName) + 1)
+        this.$emit('selected', this.selectedName, this.selectedID)
+        this.setSelectedPoke(parseInt(this.names.indexOf(this.selectedName) + 1))
+      },
+      ...mapActions(['setSelectedPoke'])
+    },
+    computed:  {
+      names: function () {
+        return pokemonNames
       }
     }
   }

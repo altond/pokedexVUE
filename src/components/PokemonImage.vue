@@ -1,19 +1,19 @@
 <template>
+  
   <v-card
     elevation="6"
     outlined
     class="mx-auto my-12"
+    v-if="pokedata"
   >
-    
-
-    <v-img
-      :src="getImgSrc()"
-      class="centre"
-    ></v-img>
+      <v-img
+        :src=imgsrc
+        class="centre"
+      ></v-img>
 
     <v-card-title>
       <div class="overline">
-        Height
+        {{ titleheight }}
       </div>
     </v-card-title>
 
@@ -27,7 +27,7 @@
 
     <v-card-title>
       <div class="overline">
-        Weight
+        {{ titleweight }}
       </div>
     </v-card-title>
 
@@ -41,21 +41,34 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     name: "PokemonImage",
-    props: ["selected", "pokedata", "pokename"],
+    props: ["selected", "pokename", "pokeID"],
     data: () => ({
-        //
+        titleheight: 'Height',
+        titleweight: 'Weight',
+        
     }),
 
     methods:  {
-      getImgSrc()   {
-          return this.pokedata.sprites.other["official-artwork"].front_default
+      //
+    },
+
+    computed:  {
+      ...mapGetters(['pokedata', 'sprites']),
+      imgsrc: function ()  {
+        return this.sprites.other["official-artwork"].front_default
       }
     },
 
+    created () {
+      console.log("card created !")
+    },
+
     mounted ()  {
-        console.log("card mounted !")
+      console.log("card mounted !")
     }
 }
 </script>
@@ -63,5 +76,9 @@ export default {
 <style scoped>
   .centre  {
     margin: auto;
+  }
+
+  .test  {
+    max-width: 475px;
   }
 </style>

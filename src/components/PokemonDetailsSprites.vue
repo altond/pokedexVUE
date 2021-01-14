@@ -3,14 +3,15 @@
     elevation="6"
     outlined
     class="mx-auto my-12"
+    v-if="sprites"
     >
-    <v-card-title>{{title}}</v-card-title>
+    <v-card-title>{{ title }}</v-card-title>
 
     <v-card-text>
       <v-row>
         <v-col class="nopad">
           <v-img
-            :src="getSpriteFD()"
+            :src=getSpriteFD
             max-height="100"
             max-width="100"
             class="centre"
@@ -18,17 +19,16 @@
         </v-col>
         <v-col class="nopad">
           <v-img
-            :src="getSpriteBD()"
+            :src=getSpriteBD
             max-height="100"
             max-width="100"
             class="centre"
           />   
         </v-col>
-      </v-row>
-      <v-row>
+      
         <v-col class="nopad">
           <v-img
-            :src="getSpriteFS()"
+            :src=getSpriteFS
             max-height="100"
             max-width="100"
             class="centre"
@@ -36,7 +36,7 @@
         </v-col>
         <v-col class="nopad">
           <v-img
-            :src="getSpriteBS()"
+            :src=getSpriteBS
             max-height="100"
             max-width="100"
             class="centre"
@@ -49,32 +49,39 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     name: "PokemonDetailsSprites",
-    props: ["pokedata", "title"],
+    props: ["title"],
+    
+    computed:  {
+      ...mapGetters(['sprites']),
+      getSpriteBD: function ()  {
+        return this.sprites.back_default
+      },
+      getSpriteBS: function ()  {
+        return this.sprites.back_shiny
+      },
+      getSpriteFD: function ()  {
+        return this.sprites.front_default
+      },
+      getSpriteFS: function ()  {
+        return this.sprites.front_shiny
+      },
+    },
+    methods:  {
+        
+    },
     data: () => ({
         //
     }),
-    methods:  {
-        getSpriteBD()   {
-            return this.pokedata.back_default
-        },
-        getSpriteBS()   {
-            return this.pokedata.back_shiny
-        },
-        getSpriteFD()   {
-            return this.pokedata.front_default
-        },
-        getSpriteFS()   {
-            return this.pokedata.front_shiny
-        },
-    }
 }
 </script>
 
 <style scoped>
     .nopad  {
-        /* padding: 0px; */
+        padding: 0px;
     }
 
     .centre  {

@@ -1,45 +1,27 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Pokedex Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.icon-icons.com/icons2/1898/PNG/512/pokemon_121114.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <h2>{{ appbartitle }}</h2>
-      </div>
-    </v-app-bar>
-    
+    <PokemonAppBar />
     <div class="centre">
       <v-main>   
-        <PokemonSearch v-bind:names="names" v-on:selected="setSelected"/>
-        <v-container v-if="pokedata" class="pokeinfo">
-          <h1>#{{ selectedID }}: {{ selected | toUpperCase }}</h1>
+        <PokemonSearch v-on:selected="setSelected" v-model="selectedID"/>
+        <v-container v-if="selected" class="pokeinfo">
+          <PokemonTitle :pokeName="selectedName" />
           <v-row>
-            <v-col xl ='4' lg='3' md='12' sm='12'>
-              <PokemonImage v-bind:pokedata="pokedata" v-bind:selected="selected"/>
+            <v-col xl ='4' lg='6' md='12' sm='12'>
+              <PokemonImage />
             </v-col>
-            <v-col xl ='4' lg='3' md='6' sm='12' >
-              <PokemonDetailsType v-bind:pokedata="pokedata.types" v-bind:title="titletype"/>
-              <PokemonDetailsType v-bind:pokedata="pokedata.abilities" v-bind:title="titleabilities"/>
-              <PokemonDetailsType v-bind:pokedata="pokedata.stats" v-bind:title="titlestats"/>
-              <PokemonDetailsSprites v-bind:pokedata="pokedata.sprites" v-bind:title="titlesprites"/>
+            <v-col xl ='4' lg='6' md='6' sm='12'>
+              <PokemonDetailsType v-bind:title="titletype"/>
+              <PokemonDetailsType v-bind:title="titleabilities"/>
+              <PokemonDetailsType v-bind:title="titlestats"/>
+              <PokemonDetailsSprites v-bind:title="titlesprites"/>
             </v-col>
-            <v-col xl ='4' lg='4.5' >
-              <PokemonDetailsType v-bind:pokedata="pokedata.moves" v-bind:title="titlemoves"/>
+            <v-col xl ='4' >
+              <PokemonDetailsType v-bind:title="titlemoves"/>
             </v-col>
           </v-row>          
         </v-container>
-        <h1 v-else>Click the Dropdown Menu above and select a Pokemon!</h1>
+        <h1 v-else class="centreText">{{ homepagemsg }}</h1>
       </v-main>
     </div>
   </v-app>
@@ -50,8 +32,8 @@ import PokemonSearch from './components/PokemonSearch';
 import PokemonImage from './components/PokemonImage';
 import PokemonDetailsType from './components/PokemonDetailsType';
 import PokemonDetailsSprites from './components/PokemonDetailsSprites';
-import { pokemonNames } from './data.js'
-import axios from 'axios';
+import PokemonTitle from './components/PokemonTitle';
+import PokemonAppBar from './components/PokemonAppBar';
 
 
 export default {
@@ -61,58 +43,48 @@ export default {
     PokemonSearch,
     PokemonImage,
     PokemonDetailsType,
-    PokemonDetailsSprites
+    PokemonDetailsSprites,
+    PokemonTitle,
+    PokemonAppBar
   },
 
-  props: ["selectedName"],
+  props: [],
 
   data () {
     return  {
-      selected: '',
+      selectedName: '',
       selectedID: null,
-      names: [],
-      pokedata: null,
+      selected: false,
       titletype: 'Type',
       titleabilities: 'Abilities',
       titlemoves: 'Possible Moves',
       titlestats: 'Base Stats',
       titlesprites: 'Sprites',
-      appbartitle: 'Alton\'s Pokedex v1.1'
+      homepagemsg: 'Click the Dropdown Menu above and select a Pokemon!',
+      
     }
   },
 
   created()  {
-    console.log("created !")
-    this.names = pokemonNames
+    console.log("App created !")
   },
   mounted()  {
-        console.log("mounted !")
+    console.log("App mounted !")
   },
 
   methods:  {
 
-    setSelected(selectedName) {
-      this.selected = selectedName
-      this.selectedID = parseInt(this.names.indexOf(this.selected) + 1)
-      axios.get(' https://pokeapi.co/api/v2/pokemon/' + this.selectedID)
-        .then(response => (this.pokedata = response.data))
-        .catch(err => console.log(err));
+    setSelected(name, id) {
+      this.selected = true
+      this.selectedName = name
+      this.selectedID = id
     },
     
   },
-
-  filters:  {
-    toUpperCase (value) {
-        return value.toUpperCase()
-    },
-  }
 };
 </script>
 
 <style scoped>
-  h1  {
-    text-align: center;
-  }
 
   .centre  {
     margin: auto;
@@ -120,5 +92,9 @@ export default {
 
   .v-main__wrap  {
     margin: auto;
+  }
+
+  .centreText  {
+    text-align: center;
   }
 </style>
