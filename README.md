@@ -1,24 +1,10 @@
-# pokedexvue
+# PokedexVue
+A Pokédex web application created using Vue.js.
 
-## Project setup
-```
-npm install
-```
+## Screenshots
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### Home Page
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Typing a Search Query
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Details Page
